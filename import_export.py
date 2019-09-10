@@ -145,12 +145,14 @@ class OBJECT_OT_load_lightfield(bpy.types.Operator):
         LF.num_cams_y = int(parser.get(section, 'num_cams_y'))
         LF.baseline_mm = float(parser.get(section, 'baseline_mm'))
         LF.focus_dist = float(parser.get(section, 'focus_distance_m'))
-        LF.center_cam_x = float(parser.get(section, 'center_cam_x_m'))
-        LF.center_cam_y = float(parser.get(section, 'center_cam_y_m'))
-        LF.center_cam_z = float(parser.get(section, 'center_cam_z_m'))
-        LF.center_cam_rot_x = float(parser.get(section, 'center_cam_rx_rad'))
-        LF.center_cam_rot_y = float(parser.get(section, 'center_cam_ry_rad'))
-        LF.center_cam_rot_z = float(parser.get(section, 'center_cam_rz_rad'))
+        
+        ## ------------ Variables do not exist in the config file -----------
+        # LF.center_cam_x = float(parser.get(section, 'center_cam_x_m'))
+        # LF.center_cam_y = float(parser.get(section, 'center_cam_y_m'))
+        # LF.center_cam_z = float(parser.get(section, 'center_cam_z_m'))
+        # LF.center_cam_rot_x = float(parser.get(section, 'center_cam_rx_rad'))
+        # LF.center_cam_rot_y = float(parser.get(section, 'center_cam_ry_rad'))
+        # LF.center_cam_rot_z = float(parser.get(section, 'center_cam_rz_rad'))
 
         bpy.ops.scene.create_lightfield('EXEC_DEFAULT')
         return {'FINISHED'}

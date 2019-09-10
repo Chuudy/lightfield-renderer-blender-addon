@@ -372,7 +372,6 @@ def register():
     import_export.register()
     gui.register()
 
-    # bpy.utils.register_module(__name__)
 
 
 def unregister():
