@@ -34,7 +34,7 @@ bl_info = {
     'author': 'Ole Johannsen, Katrin Honauer',
     'description': 'Scripts to create a static light field setup',
     'version': (1, 0, 0),
-    'blender': (2, 7, 0),
+    'blender': (2, 80, 0),
     'api': 36103,
     'location': 'View3D > Tool Shelf > 4D Light Field Renderer',
     'url': 'https://www.informatik.uni-konstanz.de/cvia/',
@@ -61,7 +61,7 @@ import os
 class LFPropertyGroup(bpy.types.PropertyGroup):
 
     # camera parameters
-    focal_length = FloatProperty(
+    focal_length : FloatProperty(
         name='f-Len[mm]',
         default=100,
         min=0,
@@ -69,7 +69,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Focal length of cameras [mm]',
         update=updates.update_lightfield
     )
-    x_res = IntProperty(
+    x_res : IntProperty(
         name='xRes[px]',
         default=512,
         min=1,
@@ -77,7 +77,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Image resolution in x direction [px]',
         update=updates.update_lightfield
     )
-    y_res = IntProperty(
+    y_res : IntProperty(
         name='yRes[px]',
         default=512,
         min=1,
@@ -85,7 +85,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Image resolution in y direction [px]',
         update=updates.update_lightfield
     )
-    sensor_size = FloatProperty(
+    sensor_size : FloatProperty(
         name='sensorSize[mm]',
         default=35,
         min=1,
@@ -93,7 +93,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Sensor chip size in [mm]',
         update=updates.update_lightfield
     )
-    fstop = FloatProperty(
+    fstop : FloatProperty(
         name='f-Stop',
         default=100,
         min=0,
@@ -103,7 +103,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
 
     # light field parameters
-    num_cams_x = IntProperty(
+    num_cams_x : IntProperty(
         name='numCamsX',
         default=3,
         min=1,
@@ -111,7 +111,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Number of cameras in x direction',
         update=updates.update_number_of_cameras
     )
-    num_cams_y = IntProperty(
+    num_cams_y : IntProperty(
         name='numCamsY',
         default=3,
         min=1,
@@ -119,7 +119,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Number of cameras in y direction',
         update=updates.update_number_of_cameras
     )
-    baseline_mm = FloatProperty(
+    baseline_mm : FloatProperty(
         name='baseline[mm]',
         default=50.0,
         min=0.01,
@@ -127,7 +127,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Distance between each pair of cameras in array in [mm]',
         update=updates.update_baseline
     )
-    focus_dist = FloatProperty(
+    focus_dist : FloatProperty(
         name='focDist[m]',
         default=8,
         min=0,
@@ -135,32 +135,32 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Distance where cameras are focused at in [m], 0 = \infty ',
         update=updates.update_lightfield
     )
-    depth_map_scale = FloatProperty(
+    depth_map_scale : FloatProperty(
         name='depthMapScale',
         default=10.0,
         description='Factor for the high resolution depth map export'
     )
-    save_depth_for_all_views = BoolProperty(
+    save_depth_for_all_views : BoolProperty(
         name='save depth and disparity maps for all views',
         default=False,
         description='Whether to save disp/depth maps for all views or only for center view.'
     )
-    save_object_id_maps_for_all_views = BoolProperty(
+    save_object_id_maps_for_all_views : BoolProperty(
         name='save object id maps for all views',
         default=False,
         description='Whether to save object id maps for all views or only for center view.'
     )
-    sequence_start = IntProperty(
+    sequence_start : IntProperty(
         name='start frame',
         default=0,
         description='The frame in the timeline where to start recording the LF movie'
     )
-    sequence_end = IntProperty(
+    sequence_end : IntProperty(
         name='end frame',
         default=0,
         description='The frame in the timeline where to stop recording the LF movie'
     )
-    sequence_steps = IntProperty(
+    sequence_steps : IntProperty(
         name='frame steps',
         default=1,
         min=1,
@@ -170,14 +170,14 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
 
 
     # file IO
-    tgt_dir = StringProperty(
+    tgt_dir : StringProperty(
         name='',
         subtype='FILE_PATH',
         default=updates.get_default_target_directory(),
         description='Target directory for blender output',
         update=updates.update_target_directory
     )
-    path_config_file = StringProperty(
+    path_config_file : StringProperty(
         name='',
         subtype='FILE_PATH',
         default=updates.get_default_path_config_file(),
@@ -186,21 +186,21 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
 
     # meta information
-    min_disp = FloatProperty(
+    min_disp : FloatProperty(
         name='min_disp[px]',
         default=-2.0,
         min=-20.0,
         max=20.0,
         description='Min disparity of the scene in [px]',
     )
-    max_disp = FloatProperty(
+    max_disp : FloatProperty(
         name='max_disp[px]',
         default=2.0,
         min=-20.0,
         max=20.0,
         description='Max disparity the scene in [px]',
     )
-    frustum_min_disp = FloatProperty(
+    frustum_min_disp : FloatProperty(
         name='frustumMinDisp[px]',
         default=-2.0,
         min=-20.0,
@@ -208,7 +208,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Min disparity of frustum in [px]',
         update=updates.update_lightfield
     )
-    frustum_max_disp = FloatProperty(
+    frustum_max_disp : FloatProperty(
         name='frustumMaxDisp[px]',
         default=2.0,
         min=-20.0,
@@ -216,89 +216,89 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Max disparity of frustum in [px]',
         update=updates.update_lightfield
     )    
-    authors = StringProperty(
+    authors : StringProperty(
         name='',
         default='Katrin Honauer, Ole Johannsen, Daniel Kondermann, Bastian Goldluecke',
         description='Author(s) of the scene'
     )
-    category = StringProperty(
+    category : StringProperty(
         name='',
         default='test',
         description='Scene category, e.g. test, training, stratified'
     )
-    scene = StringProperty(
+    scene : StringProperty(
         name='',
         default='scene_0',
         description='Name of the scene'
     )
-    contact = StringProperty(
+    contact : StringProperty(
         name='',
         default='contact@lightfield-analysis.net',
         description='Contact information'
     )
-    date = StringProperty(
+    date : StringProperty(
         name='',
         default=str(datetime.date.today()),
         description='Creation date'
     )
-    version = StringProperty(
+    version : StringProperty(
         name='',
         default="v0",
         description='Version of the scene'
     )
 
     # Private variables to manage internal computations, no access from GUI interface
-    baseline_x_m = FloatProperty(
+    baseline_x_m : FloatProperty(
         name='BaselineX',
         default=0.05,
     )
-    baseline_y_m = FloatProperty(
+    baseline_y_m : FloatProperty(
         name='BaselineY',
         default=0.05,
     )
-    cycles_seed = IntProperty(
+    cycles_seed : IntProperty(
         default=-1
     )
-    setup_number = IntProperty(
+    setup_number : IntProperty(
         default=0
     )
-    num_cams_x_hidden = IntProperty(
+    num_cams_x_hidden : IntProperty(
         default=0
     )
-    num_cams_y_hidden = IntProperty(
+    num_cams_y_hidden : IntProperty(
         default=0
     )
-    center_cam_x = FloatProperty(
+    center_cam_x : FloatProperty(
         name='x',
         default=0.0,
         description='X position of center camera',
     )
-    center_cam_y = FloatProperty(
+    center_cam_y : FloatProperty(
         name='y',
         default=0.0,
         description='Y position of center camera',
     )
-    center_cam_z = FloatProperty(
+    center_cam_z : FloatProperty(
         name='z',
         default=0.0,
         description='Z position of center camera',
     )
-    center_cam_rot_x = FloatProperty(
+    center_cam_rot_x : FloatProperty(
         name='x',
         default=3.141592654 / 2.0,  
         description='Rotation of the center camera around the x axis',
     )
-    center_cam_rot_y = FloatProperty(
+    center_cam_rot_y : FloatProperty(
         name='y',
         default=0.0,
         description='Rotation of the center camera around the y axis',
     )
-    center_cam_rot_z = FloatProperty(
+    center_cam_rot_z : FloatProperty(
         name='z',
         default=-3.141592654 / 2.0,
         description='Rotation of the center camera around the z axis',
     )
-    num_blades = FloatProperty(
+    num_blades : FloatProperty(
         name='Blade Number',
         default=8,
         min=0,
@@ -306,7 +306,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         description='Number of blades in aperture for polygonal bukeh (at least 3)',
         update=updates.update_lightfield
     )
-    rotation = FloatProperty(
+    rotation : FloatProperty(
         name='Rotation [°]',
         default=8,
         min=0,
@@ -368,11 +368,18 @@ def register():
     # register properties
     bpy.utils.register_class(LFPropertyGroup)
     bpy.types.Scene.LF = bpy.props.PointerProperty(type=LFPropertyGroup)
-    bpy.utils.register_module(__name__)
+    lightfield_simulator.register()
+    import_export.register()
+    gui.register()
+
+    # bpy.utils.register_module(__name__)
 
 
 def unregister():
-    bpy.utils.unregister_module(__name__)
+    bpy.utils.unregister_class (LFPropertyGroup)
+    gui.unregister()
+    import_export.unregister()
+    lightfield_simulator.unregister()
 
 if __name__ == "__main__":
     register()

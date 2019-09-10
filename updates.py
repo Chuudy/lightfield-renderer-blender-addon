@@ -102,7 +102,7 @@ def update_path_config_file(self, context):
 
 
 def get_default_target_directory():
-    path = os.path.join(bpy.context.user_preferences.filepaths.temporary_directory, 'lightfield')
+    path = os.path.join(bpy.context.preferences.filepaths.temporary_directory, 'lightfield')
     if not os.path.isdir(path):
         os.makedirs(path)
     return path

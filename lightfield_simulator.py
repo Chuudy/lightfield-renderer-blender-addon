@@ -674,3 +674,19 @@ def median_downsampling(img, tile_height, tile_width):
     small_img = tiles.reshape(int(n_tiles_vert), int(n_tiles_horiz))
 
     return small_img
+
+
+CLASSES = [OBJECT_OT_show_frustum, OBJECT_OT_hide_frustum, OBJECT_OT_update_lightfield, OBJECT_OT_create_lightfield, OBJECT_OT_delete_lightfield, OBJECT_OT_render_lightfield]
+
+def register():
+    for cls in CLASSES:
+        try:
+            bpy.utils.register_class(cls)
+        except:
+            print(f"{cls.__name__} already registred")
+
+
+def unregister():
+    for cls in CLASSES:
+        if hasattr(bpy.types, cls.__name__):
+            bpy.utils.unregister_class(cls)
