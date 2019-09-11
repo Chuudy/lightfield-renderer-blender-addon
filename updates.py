@@ -35,11 +35,20 @@ from bpy.props import *
 
 import os
 
+def select_lightfield_object():
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    LF = bpy.context.scene.LF
+    lightfield = bpy.data.objects[LF.get_lightfield_name()]
+    lightfield.select_set(True)
+    bpy.context.view_layer.objects.active = lightfield
+
 
 def update_lightfield(self, context):
     """
     update function for light field
     """
+    select_lightfield_object()
     bpy.ops.scene.update_lightfield('EXEC_DEFAULT')
 
 

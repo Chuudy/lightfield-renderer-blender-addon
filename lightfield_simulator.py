@@ -323,9 +323,10 @@ class OBJECT_OT_delete_lightfield(bpy.types.Operator):
             lightfield.select_set(True)
             bpy.ops.object.delete()
 
+            ### ---- OBJECTS DO NOT EXIST ANYMORE - nothing to restore --------
             # restore initial state
-            for object in selected_objects:
-                object.select_set(True)
+            # for object in selected_objects:
+            #     object.select_set(True)
 
         except KeyError:
             print ("No camera grid to delete with name: %s. Try adding a camera grid first." % LF.get_lightfield_name())

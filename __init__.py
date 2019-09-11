@@ -218,7 +218,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )    
     authors : StringProperty(
         name='',
-        default='Katrin Honauer, Ole Johannsen, Daniel Kondermann, Bastian Goldluecke',
+        default='Krzysztof Wolski',
         description='Author(s) of the scene'
     )
     category : StringProperty(
@@ -233,7 +233,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
     contact : StringProperty(
         name='',
-        default='contact@lightfield-analysis.net',
+        default='',
         description='Contact information'
     )
     date : StringProperty(
