@@ -137,8 +137,20 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
     depth_map_scale : FloatProperty(
         name='depthMapScale',
-        default=10.0,
+        default=1.0,
         description='Factor for the high resolution depth map export'
+    )
+    color_map_format : EnumProperty(
+        items=[('PNG', 'PNG', 'PNG'), ('JPEG','JPEG','JPEG'), ('HDR', 'Radiance HDR', 'Radian HDR') , ('OPEN_EXR', 'OpenEXR', 'OpenEXR')],
+        name='color format',
+        default=None,
+        options={'ANIMATABLE'}
+    )
+    depth_map_format : EnumProperty(
+        items=[('HDR', 'Radiance HDR', 'Radian HDR') , ('OPEN_EXR', 'OpenEXR', 'OpenEXR')],
+        name='depth format',
+        default=None,
+        options={'ANIMATABLE'}
     )
     save_depth_for_all_views : BoolProperty(
         name='save depth and disparity maps for all views',
