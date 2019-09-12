@@ -74,8 +74,14 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
 
         col = layout.column(align=True)
         col.label(text="Disparity Preview:")
-        col.prop(LF, "frustum_min_disp")
-        col.prop(LF, "frustum_max_disp")
+        col.prop(LF, "frustum_mode")
+
+        if(LF.frustum_mode == 'Distance'):
+            col.prop(LF, "frustum_min_distance")
+            col.prop(LF, "frustum_max_distance")
+        if(LF.frustum_mode == 'Disparity'):
+            col.prop(LF, "frustum_min_disp")
+            col.prop(LF, "frustum_max_disp")
 
         if LF.frustum_is_hidden():
             col.operator("scene.show_frustum", text="Show Frustum", icon="HAND")

@@ -57,8 +57,9 @@ def update_baseline(self, context):
     update function for baseline property
     """
     LF = bpy.context.scene.LF
-    LF.baseline_x_m = LF.baseline_mm / 1000.0
-    LF.baseline_y_m = LF.baseline_mm / 1000.0
+    ### scale changed
+    LF.baseline_x_m = LF.baseline_mm / 10.0
+    LF.baseline_y_m = LF.baseline_mm / 10.0
     update_lightfield(self, context)
 
 

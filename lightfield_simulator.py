@@ -225,18 +225,23 @@ class OBJECT_OT_create_lightfield(bpy.types.Operator):
         LF = bpy.context.scene.LF
         max_res = max(LF.x_res, LF.y_res)
 
-        if LF.focus_dist == 0:
-            factor = LF.baseline_x_m * LF.focal_length * max_res
-            G_plus = factor / (LF.frustum_max_disp * LF.sensor_size)
-            G_minus = 10000  # factor / (LF.frustum_min_disp * LF.sensor_size)
-        else:
-            factor = LF.baseline_x_m * LF.focal_length * LF.focus_dist * max_res
-            G_plus = factor / (LF.baseline_x_m * LF.focal_length * max_res +
-                               LF.frustum_max_disp * LF.focus_dist * LF.sensor_size)
-            G_minus = factor / (LF.baseline_x_m * LF.focal_length * max_res +
-                                LF.frustum_min_disp * LF.focus_dist * LF.sensor_size)
-            if G_minus < 0:
-                G_minus = 10000
+        if(LF.frustum_mode == 'Disparity'):
+            if LF.focus_dist == 0:
+                factor = LF.baseline_x_m * LF.focal_length * max_res
+                G_plus = factor / (LF.frustum_max_disp * LF.sensor_size)
+                G_minus = 10000  # factor / (LF.frustum_min_disp * LF.sensor_size)
+            else:
+                factor = LF.baseline_x_m * LF.focal_length * LF.focus_dist * max_res
+                G_plus = factor / (LF.baseline_x_m * LF.focal_length * max_res +
+                                LF.frustum_max_disp * LF.focus_dist * LF.sensor_size)
+                G_minus = factor / (LF.baseline_x_m * LF.focal_length * max_res +
+                                    LF.frustum_min_disp * LF.focus_dist * LF.sensor_size)
+                if G_minus < 0:
+                    G_minus = 10000
+
+        elif(LF.frustum_mode == 'Distance'):
+            G_plus = LF.frustum_min_distance
+            G_minus = LF.frustum_max_distance
 
         A = 2.0 * LF.focal_length / LF.sensor_size
         ARx = LF.x_res / max_res

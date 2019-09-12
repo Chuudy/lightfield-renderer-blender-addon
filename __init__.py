@@ -121,18 +121,18 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
     baseline_mm : FloatProperty(
         name='baseline[mm]',
-        default=50.0,
+        default=5.0,
         min=0.01,
         max=15000,
         description='Distance between each pair of cameras in array in [mm]',
         update=updates.update_baseline
     )
     focus_dist : FloatProperty(
-        name='focDist[m]',
-        default=8,
+        name='focDist[cm]',
+        default=50,
         min=0,
         max=10000,
-        description='Distance where cameras are focused at in [m], 0 = \infty ',
+        description='Distance where cameras are focused at in [cm], 0 = \infty ',
         update=updates.update_lightfield
     )
     depth_map_scale : FloatProperty(
@@ -200,17 +200,24 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     # meta information
     min_disp : FloatProperty(
         name='min_disp[px]',
-        default=-2.0,
+        default=0,
         min=-20.0,
         max=20.0,
         description='Min disparity of the scene in [px]',
     )
     max_disp : FloatProperty(
         name='max_disp[px]',
-        default=2.0,
+        default=-1.71,
         min=-20.0,
         max=20.0,
         description='Max disparity the scene in [px]',
+    )
+    frustum_mode : EnumProperty(
+        items=[('Distance','Distance','Distance'), ('Disparity','Disparity','Disparity')],
+        name='frustum mode',
+        default=None,
+        options={'ANIMATABLE'},
+        update=updates.update_lightfield
     )
     frustum_min_disp : FloatProperty(
         name='frustumMinDisp[px]',
@@ -226,6 +233,22 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         min=-20.0,
         max=20.0,
         description='Max disparity of frustum in [px]',
+        update=updates.update_lightfield
+    )
+    frustum_min_distance : FloatProperty(
+        name='frustumMinDist[cm]',
+        default=50.0,
+        min=-0.0001,
+        max=100000.0,
+        description='Min distance of frustum front plane',
+        update=updates.update_lightfield
+    )
+    frustum_max_distance : FloatProperty(
+        name='frustumMaxDist[cm]',
+        default=72.0,
+        min=-0.0002,
+        max=100000.0,
+        description='Min distance of frustum back plane',
         update=updates.update_lightfield
     )    
     authors : StringProperty(
@@ -262,11 +285,11 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     # Private variables to manage internal computations, no access from GUI interface
     baseline_x_m : FloatProperty(
         name='BaselineX',
-        default=0.05,
+        default=0.5,
     )
     baseline_y_m : FloatProperty(
         name='BaselineY',
-        default=0.05,
+        default=0.5,
     )
     cycles_seed : IntProperty(
         default=-1
