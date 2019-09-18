@@ -6,7 +6,7 @@
 #  To view a copy of this license,                                         #
 #  visit http://creativecommons.org/licenses/by-nc-sa/4.0/.                #
 #                                                                          #
-#  Authors: Katrin Honauer & Ole Johannsen                                 #
+#  Authors: Katrin Honauer & Ole Johannsen & Krzysztof Wolski              #
 #  Contact: contact@lightfield-analysis.net                                #
 #  Website: www.lightfield-analysis.net                                    #
 #                                                                          #
@@ -48,6 +48,11 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
     bl_category = "LF"
     bl_context = "objectmode"
 
+    def separator(self,context,layout):        
+        col = layout.column(align=True)
+        col.label(text="")
+
+
     def draw(self, context):
         LF = bpy.context.scene.LF
         layout = self.layout
@@ -60,6 +65,7 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
         col.prop(LF, "sensor_size")
         col.prop(LF, "fstop")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
         col.label(text="Light field parameters:")
         col.prop(LF, "num_cams_x")
@@ -67,11 +73,13 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
         col.prop(LF, "baseline_mm")
         col.prop(LF, "focus_dist")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
         col.label(text="Grid generation:")
         col.operator("scene.create_lightfield", text="Add Camera Grid")
         col.operator("scene.delete_lightfield", text="Delete Camera Grid")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
         col.label(text="Disparity Preview:")
         col.prop(LF, "frustum_mode")
@@ -88,28 +96,43 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
         else:
             col.operator("scene.hide_frustum", text="Hide Frustum", icon="HAND")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
-        col.label(text="Rendering:")
+        col.label(text="Output:")
         col.prop(LF, "tgt_dir")
         col.prop(LF, "color_map_format")
         col.prop(LF, "depth_map_format")
-        col.prop(LF, "depth_map_scale")
-        col.prop(LF, "sequence_start")
-        col.prop(LF, "sequence_end")
-        col.prop(LF, "sequence_steps")
+        # col.prop(LF, "depth_map_scale") ### not necessary now
+
+        self.separator(context,layout)
+        col = layout.column(align=True)
+        col.label(text="Animation:")
+        col.prop(LF, "render_single_frame")
+        if(LF.render_single_frame == False):
+            col.prop(LF, "sequence_start")
+            col.prop(LF, "sequence_end")
+            col.prop(LF, "sequence_steps")
         # col.prop(LF, "save_depth_for_all_views")
         # col.prop(LF, "save_object_id_maps_for_all_views")
+
+        self.separator(context,layout)
+        col = layout.column(align=True)
+        col.label(text="Rendering:")
         col.operator("scene.render_lightfield", text="Render Light Field", icon="HAND")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
         col.label(text="Meta information:")
-        col.prop(LF, "scene")
-        col.prop(LF, "category")
-        col.prop(LF, "date")
-        col.prop(LF, "version")
-        col.prop(LF, "authors")
-        col.prop(LF, "contact")
+        col.prop(LF, "show_meta")
+        if(LF.show_meta == True):
+            col.prop(LF, "scene")
+            col.prop(LF, "category")
+            col.prop(LF, "date")
+            col.prop(LF, "version")
+            col.prop(LF, "authors")
+            col.prop(LF, "contact")
 
+        self.separator(context,layout)
         col = layout.column(align=True)
         col.label(text="Save/load light field settings:")
         col.prop(LF, "path_config_file")

@@ -61,6 +61,8 @@ class OBJECT_OT_save_lightfield(bpy.types.Operator):
         parser.set(section, 'num_cams_y', str(LF.num_cams_y))
         parser.set(section, 'baseline_mm', str(LF.baseline_mm))
         parser.set(section, 'focus_distance_m', str(LF.focus_dist))
+        parser.set(section, 'front_plane_distance', str(LF.frustum_min_distance))
+        parser.set(section, 'back_plane_distance', str(LF.frustum_max_distance))
 
         try:
             lightfield = bpy.data.objects[LF.get_lightfield_name()]
@@ -80,6 +82,10 @@ class OBJECT_OT_save_lightfield(bpy.types.Operator):
 
         section = "meta"
         parser.add_section(section)
+
+        parser.set(section, 'color_map_format', str(LF.color_map_format))
+        parser.set(section, 'depth_map_format', str(LF.depth_map_format))
+
         parser.set(section, 'scene', str(LF.scene))
         parser.set(section, 'category', str(LF.category))
         parser.set(section, 'date', str(LF.date))

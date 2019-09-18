@@ -142,14 +142,16 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
     color_map_format : EnumProperty(
         items=[('PNG', 'PNG', 'PNG'), ('JPEG','JPEG','JPEG'), ('HDR', 'Radiance HDR', 'Radian HDR') , ('OPEN_EXR', 'OpenEXR', 'OpenEXR')],
-        name='color format',
+        name='color',
         default=None,
+        description='Specifies color output format',
         options={'ANIMATABLE'}
     )
     depth_map_format : EnumProperty(
         items=[('HDR', 'Radiance HDR', 'Radian HDR') , ('OPEN_EXR', 'OpenEXR', 'OpenEXR')],
-        name='depth format',
+        name='depth',
         default=None,
+        description='Specifies depth output format',
         options={'ANIMATABLE'}
     )
     save_depth_for_all_views : BoolProperty(
@@ -161,6 +163,11 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         name='save object id maps for all views',
         default=False,
         description='Whether to save object id maps for all views or only for center view.'
+    )
+    render_single_frame : BoolProperty(
+        name='render single frame',
+        default=True,
+        description='Renders frame number 0 and doesn;t append frame number to the filename'
     )
     sequence_start : IntProperty(
         name='start frame',
@@ -198,6 +205,11 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
 
     # meta information
+    show_meta : BoolProperty(
+        name="show metadata",
+        default=False,
+        description='Toggles metadata information'
+    )
     min_disp : FloatProperty(
         name='min_disp[px]',
         default=0,
@@ -214,7 +226,7 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
     frustum_mode : EnumProperty(
         items=[('Distance','Distance','Distance'), ('Disparity','Disparity','Disparity')],
-        name='frustum mode',
+        name='mode',
         default=None,
         options={'ANIMATABLE'},
         update=updates.update_lightfield
