@@ -461,12 +461,12 @@ class OBJECT_OT_render_lightfield(bpy.types.Operator):
             print("Rendering scene with camera: " + camera.name)
             image_filename = scene_key + '_' + self.get_raw_camera_name(camera.name)
 
-            if(LF.render_single_frame == True):
-                image_out_node.file_slots[c_image].path = image_filename
-                c_image = image_filename
-            elif(LF.render_single_frame == False):
-                image_out_node.file_slots[c_image].path = image_filename + '_frame###'
-                c_image = image_filename + '_frame###'
+            # if(LF.render_single_frame == True):
+            #     image_out_node.file_slots[c_image].path = image_filename
+            #     c_image = image_filename
+            # elif(LF.render_single_frame == False):
+            image_out_node.file_slots[c_image].path = image_filename + '_frame###'
+            c_image = image_filename + '_frame###'
 
             # set scene camera to current light field camera
             bpy.data.scenes[scene_key].camera = camera
@@ -512,12 +512,12 @@ class OBJECT_OT_render_lightfield(bpy.types.Operator):
             c_image = 'Image'
             print("Rendering scene with camera: " + camera.name)
             image_filename = 'depth'
-            if(LF.render_single_frame == True):
-                depth_out_node.file_slots[c_image].path = image_filename
-                c_image = image_filename
-            elif(LF.render_single_frame == False):
-                depth_out_node.file_slots[c_image].path = image_filename + '_frame###'
-                c_image = image_filename + '_frame###'
+            # if(LF.render_single_frame == True):
+            #     depth_out_node.file_slots[c_image].path = image_filename
+            #     c_image = image_filename
+            # elif(LF.render_single_frame == False):
+            depth_out_node.file_slots[c_image].path = image_filename + '_frame###'
+            c_image = image_filename + '_frame###'
 
             # set scene camera to current light field camera
             bpy.data.scenes[scene_key].camera = camera
