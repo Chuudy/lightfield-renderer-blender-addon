@@ -103,6 +103,14 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
     )
 
     # light field parameters
+    camera_setup : EnumProperty(
+        items=[('LF', 'Lightfield', 'LF'), ('Stereo','Stereo','Stereo')],
+        name='mode',
+        default=None,
+        description='Specifies camera setup',
+        options={'ANIMATABLE'},
+        update=updates.update_camera_setup
+    )
     num_cams_x : IntProperty(
         name='numCamsX',
         default=3,
@@ -126,6 +134,14 @@ class LFPropertyGroup(bpy.types.PropertyGroup):
         max=15000,
         description='Distance between each pair of cameras in array in [mm]',
         update=updates.update_baseline
+    )
+    ipd_mm : FloatProperty(
+        name='IPD[mm]',
+        default=65,
+        min=60,
+        max=70,
+        description='Distance mbetween the eyes sepcified in milimeters',
+        update=updates.update_camera_setup
     )
     focus_dist : FloatProperty(
         name='focDist[cm]',

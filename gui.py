@@ -67,10 +67,14 @@ class VIEW3D_PT_lightfield_setup(bpy.types.Panel):
 
         self.separator(context,layout)
         col = layout.column(align=True)
-        col.label(text="Light field parameters:")
-        col.prop(LF, "num_cams_x")
-        col.prop(LF, "num_cams_y")
-        col.prop(LF, "baseline_mm")
+        col.label(text="Camera grid parameters:")
+        col.prop(LF, "camera_setup")
+        if(LF.camera_setup == 'LF'):
+            col.prop(LF, "num_cams_x")
+            col.prop(LF, "num_cams_y")
+            col.prop(LF, "baseline_mm")
+        else:
+            col.prop(LF, "ipd_mm")            
         col.prop(LF, "focus_dist")
 
         self.separator(context,layout)

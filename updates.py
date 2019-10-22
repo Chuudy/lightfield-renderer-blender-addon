@@ -62,6 +62,22 @@ def update_baseline(self, context):
     LF.baseline_y_m = LF.baseline_mm / 10.0
     update_lightfield(self, context)
 
+def update_camera_setup(self, context):
+    """
+    update function for number of cameras
+    """
+    # enforce odd number of cameras
+    LF = bpy.context.scene.LF
+
+    if(LF.camera_setup == 'Stereo'):
+        LF.num_cams_x = 3
+        LF.num_cams_y = 1
+        LF.num_cams_x_hidden = LF.num_cams_x
+        LF.num_cams_y_hidden = LF.num_cams_y
+        LF.baseline_x_m = LF.ipd_mm / 20.0
+        LF.focus_dist = 0
+
+    update_lightfield(self, context)
 
 def update_number_of_cameras(self, context):
     """
